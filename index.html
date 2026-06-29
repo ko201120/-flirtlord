@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLIRTLORD | ДОСЬЕ</title>
+    <style>
+        :root {
+            --bg:#020202;--card:#080808;--border:#111;
+            --red:#c00;--dred:#500;--green:#0a0;--amber:#c84;
+            --white:#aaa;--grey:#666;--font:'Courier New',monospace;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            background:var(--bg);color:var(--grey);font-family:var(--font);
+            min-height:100vh;line-height:1.5;
+            background-image:
+                radial-gradient(ellipse at 50% 0%,rgba(200,0,0,.05) 0%,transparent 50%),
+                radial-gradient(ellipse at 80% 100%,rgba(0,150,0,.03) 0%,transparent 40%);
+            background-attachment:fixed;
+        }
+
+        .crt{
+            position:fixed;inset:0;pointer-events:none;z-index:9999;
+            background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+        }
+        .crt::after{
+            content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+            background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(0,0,0,.5) 100%);
+        }
+
+        #particles{position:fixed;inset:0;z-index:-1;pointer-events:none}
+
+        @keyframes glitch{
+            0%,100%{transform:translate(0)}
+            20%{transform:translate(-2px,1px)}
+            40%{transform:translate(2px,-1px)}
+            60%{transform:translate(-1px,-1px)}
+            80%{transform:translate(1px,1px)}
+        }
+        @keyframes flicker{
+            0%,100%{opacity:1}93%{opacity:1}93.5%{opacity:.6}94%{opacity:1}97%{opacity:.7}97.5%{opacity:1}
+        }
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+        @keyframes scan{0%{top:-2px}100%{top:100%}}
+        @keyframes hdrbar{0%,100%{opacity:.4}50%{opacity:1}}
+        @keyframes pb{0%{width:0%;left:0}50%{width:70%;left:0}100%{width:0%;left:100%}}
+
+        .scan-line{
+            position:fixed;top:0;left:0;width:100%;height:2px;
+            background:linear-gradient(90deg,transparent,rgba(200,0,0,.1),transparent);
+            pointer-events:none;z-index:9998;animation:scan 4s linear infinite;
+        }
+
+        .hdr{
+            text-align:center;padding:45px 20px 30px;
+            border-bottom:1px solid var(--dred);
+            background:linear-gradient(180deg,rgba(10,0,0,.97),rgba(3,0,0,.92));
+            position:relative;overflow:hidden;
+        }
+        .hdr::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:2px;
+            background:linear-gradient(90deg,transparent,var(--red),var(--amber),var(--red),transparent);
+            animation:hdrbar 3s ease-in-out infinite;
+        }
+        .hdr h1{
+            color:var(--red);font-size:clamp(36px,8vw,56px);
+            font-weight:bold;letter-spacing:8px;
+            text-shadow:0 0 40px rgba(200,0,0,.7),0 0 80px rgba(200,0,0,.4),0 0 120px rgba(200,0,0,.2);
+            animation:flicker 5s infinite;
+        }
+        .hdr h1:hover{animation:glitch .3s infinite}
+        .hdr .tag{
+            color:var(--green);font-size:10px;letter-spacing:4px;margin-top:6px;
+            animation:blink 2s infinite;
+        }
+
+        .ctr{max-width:880px;margin:0 auto;padding:30px 16px}
+
+        .cd{
+            background:var(--card);border:1px solid var(--border);
+            border-left:2px solid var(--dred);padding:20px 18px;margin:14px 0;
+            position:relative;transition:all .3s;
+        }
+        .cd:hover{border-color:var(--red);border-left-color:var(--red)}
+        .cd .lb{
+            position:absolute;top:-9px;left:14px;background:var(--bg);
+            padding:0 8px;color:var(--red);font-size:9px;
+            letter-spacing:3px;text-transform:uppercase;
+        }
+        .cd h3{
+            color:var(--white);font-size:14px;margin-bottom:10px;
+            letter-spacing:2px;border-bottom:1px solid var(--border);padding-bottom:8px;
+        }
+
+        .prf{text-align:center;border-left-color:var(--red)}
+        .av{
+            width:100px;height:100px;margin:0 auto 12px;
+            background:linear-gradient(135deg,#1a0000,#050000);
+            border:1px solid var(--red);display:flex;align-items:center;justify-content:center;
+            font-size:38px;font-weight:bold;color:var(--red);
+            box-shadow:0 0 30px rgba(200,0,0,.3);position:relative;
+        }
+        .av::after{
+            content:'В СЕТИ';position:absolute;bottom:-9px;right:-18px;
+            background:#000;border:1px solid var(--green);color:var(--green);
+            font-size:7px;padding:3px 7px;letter-spacing:2px;animation:blink 1.5s infinite;
+        }
+        .prf h2{color:var(--white);font-size:30px;letter-spacing:4px;margin-bottom:4px}
+        .prf .ak{color:#555;font-size:10px;letter-spacing:2px}
+
+        .tb{width:100%;border-collapse:collapse;font-size:11px}
+        .tb td{padding:7px 10px;border-bottom:1px solid var(--border)}
+        .tb td:first-child{color:var(--red);width:180px;text-transform:uppercase;font-size:9px;letter-spacing:2px}
+        .tb tr:hover td{background:rgba(200,0,0,.03);color:var(--white)}
+
+        .tl{list-style:none;position:relative}
+        .tl li{
+            padding:12px 0 12px 28px;border-left:1px solid var(--border);
+            margin-left:10px;position:relative;font-size:11px;
+        }
+        .tl li::before{
+            content:'';position:absolute;left:-5px;top:17px;
+            width:9px;height:9px;background:var(--dred);
+            transform:rotate(45deg);transition:all .3s;
+        }
+        .tl li:hover::before{background:var(--red);box-shadow:0 0 12px var(--red)}
+        .tl .yr{color:var(--red);font-weight:bold}
+        .tl .tg{color:var(--amber)}
+
+        .lks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
+        .lk{
+            background:rgba(10,0,0,.4);border:1px solid var(--border);
+            padding:13px 15px;text-decoration:none;display:flex;align-items:center;gap:10px;
+            transition:all .3s;color:var(--grey);
+        }
+        .lk:hover{border-color:var(--red);background:rgba(20,0,0,.6);color:var(--white);transform:translateX(5px)}
+        .lk .ic{
+            width:34px;height:34px;background:#0a0000;border:1px solid var(--dred);
+            display:flex;align-items:center;justify-content:center;
+            font-size:12px;color:var(--red);flex-shrink:0;
+        }
+        .lk .tx{font-size:12px;letter-spacing:1px}
+        .lk .sb{font-size:8px;color:#444;letter-spacing:1px}
+
+        .tm{
+            background:#000;border:1px solid var(--green);border-left:2px solid var(--green);
+            padding:16px;font-size:10px;color:var(--green);line-height:1.8;
+            position:relative;
+        }
+        .tm .r{color:var(--red)}
+        .tm .a{color:var(--amber)}
+        .tm .o{color:var(--green);margin-left:16px}
+        .tm .c{animation:blink 1s infinite;color:var(--green)}
+
+        .art{text-align:center;font-size:7px;color:var(--dred);line-height:1.2;margin:20px 0;opacity:.4}
+
+        .ft{
+            text-align:center;padding:25px;color:#333;border-top:1px solid var(--border);
+            margin-top:30px;font-size:9px;letter-spacing:3px;
+        }
+        .ft span{color:var(--red)}
+
+        .wm{
+            position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);
+            font-size:120px;color:rgba(200,0,0,.02);pointer-events:none;z-index:-1;
+            white-space:nowrap;font-weight:bold;letter-spacing:20px;
+        }
+
+        .pb{
+            width:100%;height:3px;background:var(--border);margin:8px 0;position:relative;overflow:hidden;
+        }
+        .pb::after{
+            content:'';position:absolute;top:0;left:0;height:100%;
+            background:linear-gradient(90deg,var(--dred),var(--red),var(--dred));
+            animation:pb 3s ease-in-out infinite;
+        }
+
+        .corner-decoration{
+            position:absolute;width:20px;height:20px;border-color:var(--red);border-style:solid;
+        }
+        .corner-tl{top:-1px;left:-1px;border-width:2px 0 0 2px}
+        .corner-br{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+
+        @media(max-width:500px){
+            .hdr h1{font-size:26px;letter-spacing:4px}
+            .lks{grid-template-columns:1fr}
+        }
+        ::-webkit-scrollbar{width:3px}
+        ::-webkit-scrollbar-track{background:#000}
+        ::-webkit-scrollbar-thumb{background:var(--dred)}
+    </style>
+</head>
+<body>
+    <div class="crt"></div>
+    <div class="scan-line"></div>
+    <div class="wm">СЕКРЕТНО</div>
+    <canvas id="particles"></canvas>
+
+    <div class="hdr">
+        <h1>FLIRTLORD</h1>
+        <div class="tag">[ ДОСЬЕ // УРОВЕНЬ ДОПУСКА: 4 ]</div>
+    </div>
+
+    <div class="ctr">
+        <div class="art">
+    ███████╗██╗     ██╗██████╗ ████████╗██╗      ██████╗ ██████╗ ██████╗ 
+    ██╔════╝██║     ██║██╔══██╗╚══██╔══╝██║     ██╔═══██╗██╔══██╗██╔══██╗
+    █████╗  ██║     ██║██████╔╝   ██║   ██║     ██║   ██║██████╔╝██║  ██║
+    ██╔══╝  ██║     ██║██╔══██╗   ██║   ██║     ██║   ██║██╔══██╗██║  ██║
+    ██║     ███████╗██║██║  ██║   ██║   ███████╗╚██████╔╝██║  ██║██████╔╝
+    ╚═╝     ╚══════╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ 
+        </div>
+
+        <div class="tm">
+            <span class="r">root@flirtlord</span>:<span class="a">~</span># cat /classified/досье.log<br>
+            <span class="o">[+] Загрузка досье...</span><br>
+            <span class="o">[+] Расшифровка данных...</span><br>
+            <span class="o">[+] Доступ разрешен.</span><br>
+            <span class="r">root@flirtlord</span>:<span class="a">~</span># whoami<br>
+            <span class="o">flirtlord</span><br>
+            <span class="r">root@flirtlord</span>:<span class="a">~</span># cat /etc/статус<br>
+            <span class="o">АКТИВЕН | КМ: ТГ, ДС, ДАРКНЕТ | С 2018</span><br>
+            <span class="r">root@flirtlord</span>:<span class="a">~</span># <span class="c">|</span>
+        </div>
+
+        <div class="cd">
+            <span class="lb">ОЦЕНКА УГРОЗЫ</span>
+            <div class="corner-decoration corner-tl"></div>
+            <div class="corner-decoration corner-br"></div>
+            <h3>[ УРОВЕНЬ БЕЗОПАСНОСТИ ]</h3>
+            <table class="tb">
+                <tr><td>УРОВЕНЬ УГРОЗЫ</td><td><span style="color:var(--amber);">УМЕРЕННЫЙ</span></td></tr>
+                <tr><td>НАБЛЮДЕНИЕ</td><td><span style="color:var(--green);">ПАССИВНОЕ</span></td></tr>
+                <tr><td>ПОСЛЕДНЯЯ АКТИВНОСТЬ</td><td><span style="color:var(--green);">В СЕТИ</span></td></tr>
+                <tr><td>ШИФРОВАНИЕ</td><td>
+                    <div class="pb"></div>
+                    AES-256-GCM
+                </td></tr>
+            </table>
+        </div>
+
+        <div class="cd prf">
+            <span class="lb">ЛИЧНОСТЬ</span>
+            <div class="corner-decoration corner-tl"></div>
+            <div class="corner-decoration corner-br"></div>
+            <div class="av">FL</div>
+            <h2>@flirtlord</h2>
+            <div class="ak">[ он же: черный флаг | лудомания | flirtlord ]</div>
+        </div>
+
+        <div class="cd">
+            <span class="lb">ХРОНОЛОГИЯ</span>
+            <div class="corner-decoration corner-tl"></div>
+            <div class="corner-decoration corner-br"></div>
+            <h3>[ ИСТОРИЯ ]</h3>
+            <ul class="tl">
+                <li>
+                    <span class="yr">[ 2018 ]</span> &mdash;
+                    Впервые появился в комьюнити ВК. Привел <span class="tg">друг из Minecraft</span>.
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#555;">[ СОБЫТИЕ: КРАСНЫЙ ФЛАГ ]</span>
+                </li>
+                <li>
+                    <span class="yr">[ 2018 ]</span> &mdash;
+                    Первые полгода под личностью <span class="yr">"черный флаг"</span>.
+                </li>
+                <li>
+                    <span class="yr">[ 2019 ]</span> &mdash;
+                    Создал личность <span class="yr">"лудомания"</span>. Недавно продал данную личность.
+                </li>
+                <li>
+                    <span class="yr">[ ПЕРЕХОД ]</span> &mdash;
+                    В комьюнити Telegram привели из Discord. Условие: <span class="tg">"пообещали отпинать"</span>.
+                </li>
+                <li>
+                    <span class="yr">[ СЕЙЧАС ]</span> &mdash;
+                    Состоит в: <span class="tg">КМ:ТГ</span>, <span class="tg">Discord</span>, <span class="tg">ДАРКНЕТ</span>.
+                </li>
+            </ul>
+        </div>
+
+        <div class="cd">
+            <span class="lb">ДАННЫЕ</span>
+            <div class="corner-decoration corner-tl"></div>
+            <div class="corner-decoration corner-br"></div>
+            <h3>[ ДАННЫЕ ]</h3>
+            <table class="tb">
+                <tr><td>ПСЕВДОНИМ</td><td>@flirtlord</td></tr>
+                <tr><td>ПРЕДЫДУЩИЕ ПСЕВДОНИМЫ</td><td>черный флаг, лудомания</td></tr>
+                <tr><td>ПЛАТФОРМА</td><td>ВК (ВКонтакте)</td></tr>
+                <tr><td>ГОД ПОЯВЛЕНИЯ</td><td>2018</td></tr>
+                <tr><td>ПРИВЕЛ</td><td>друг из Minecraft</td></tr>
+                <tr><td>ПЕРЕХОД В ТГ</td><td>через Discord</td></tr>
+                <tr><td>СЛЕДЫ</td><td>ТГ, Discord, Даркнет</td></tr>
+                <tr><td>СТАТУС</td><td><span style="color:var(--green);">[ АКТИВЕН ]</span></td></tr>
+            </table>
+        </div>
+
+        <div class="cd">
+            <span class="lb">ССЫЛКИ</span>
+            <div class="corner-decoration corner-tl"></div>
+            <div class="corner-decoration corner-br"></div>
+            <h3>[ КАНАЛЫ СВЯЗИ ]</h3>
+            <div class="lks">
+                <a href="https://t.me/+_xc0KAH6iz03YTAy" target="_blank" class="lk">
+                    <div class="ic">[ ]</div>
+                    <div>
+                        <div class="tx">телеграм://открытый-канал</div>
+                        <div class="sb">свободный доступ</div>
+                    </div>
+                </a>
+                <a href="https://t.me/+DwmosKuLx0VkNTU0" target="_blank" class="lk">
+                    <div class="ic">[X]</div>
+                    <div>
+                        <div class="tx">телеграм://закрытый-канал</div>
+                        <div class="sb">ограниченный доступ</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="ft">
+            <p>[ FLIRTLORD // ДОСЬЕ ]</p>
+            <p>сделано на коленях, но с душой &mdash; куратор: <span>@flirtlord</span></p>
+            <p style="margin-top:6px;">[ КОНЕЦ ФАЙЛА ]</p>
+        </div>
+    </div>
+
+    <script>
+        const cv=document.getElementById('particles');
+        const ctx=cv.getContext('2d',{alpha:true,desynchronized:true});
+        let W,H;
+        const ps=[];
+        function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+        rs();addEventListener('resize',rs);
+        for(let i=0;i<120;i++){
+            ps.push({
+                x:Math.random()*W,y:Math.random()*H,
+                vy:-Math.random()*.5-.02,vx:(Math.random()-.5)*.3,
+                s:Math.random()*1.5+.3,o:Math.random()*.35+.05,
+                l:Math.random()*400+100,ml:500,
+                hue:Math.random()>.7?0:120
+            });
+        }
+        (function render(){
+            ctx.clearRect(0,0,W,H);
+            for(let p of ps){
+                p.x+=p.vx;p.y+=p.vy;p.l--;
+                if(p.l<=0||p.y<-20||p.x<-20||p.x>W+20){
+                    p.x=Math.random()*W;p.y=H+20;
+                    p.vx=(Math.random()-.5)*.3;p.vy=-(Math.random()*.6+.1);p.l=p.ml;
+                }
+                const a=p.o*Math.min(p.l/(p.ml*.2),1)*Math.min((p.ml-p.l)/(p.ml*.2),1);
+                ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);
+                const color=p.hue===0?`rgba(200,0,0,${a})`:`rgba(0,170,0,${a})`;
+                ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=p.s*4;
+                ctx.fill();
+            }
+            ctx.shadowBlur=0;requestAnimationFrame(render);
+        })();
+    </script>
+</body>
+</html>
